@@ -2,3 +2,7 @@
 ## Week 1 homework for Skill Distillery
 
 Describing my project here.
+
+### Goals
+
+### What I Learned
