@@ -27,37 +27,37 @@ d) Amount: 3.96, Tendered: 20.00, Result: 1 ten, 1 five, 1 one, 4 pennies.
 ### Methods
 
 **getCleanDouble(Scanner sc, String prompt)**
-	Loops until user actually enters a number that can be read as a double.
-	Returns a double.
+Loops until user actually enters a number that can be read as a double.
+Returns a double.
 	
 **verifyCash(Scanner sc, double amount, double cost)**
-	Gives user an error message if amount tendered (amount) is less than cost.
-	Loops until user enters an amount equal to or more than cost.
-	Returns a double. This is new amount tendered.
+Gives user an error message if amount tendered (amount) is less than cost.
+Loops until user enters an amount equal to or more than cost.
+Returns a double. This is new amount tendered.
 	
 **getChangeDue(double cash, double cost)**
-	calculates cash minus cost
-	Returns a Big Decimal
+calculates cash minus cost
+Returns a Big Decimal
 	
 **getChangeBreakdown(BigDecimal change)**
-	Calculates # of a certain denomination due back to customer.
-	changeDue divided by value of currency
-	changeDue then becomes remainder of changeDue%value-of-currency
-	loop through array from 20s to pennies
-	Array will be in this order Number of: {20s, 10s, 5s, 1s, quarters, dimes, nickels, pennies}
-	Returns an array of Big Decimals, the number of each denomination to be returned
+Calculates # of a certain denomination due back to customer.
+changeDue divided by value of currency
+changeDue then becomes remainder of changeDue%value-of-currency
+loop through array from 20s to pennies
+Array will be in this order Number of: {20s, 10s, 5s, 1s, quarters, dimes, nickels, pennies}
+Returns an array of Big Decimals, the number of each denomination to be returned
 	
 **printChangeDue (BigDecimal[] changeArr, BigDecimal change)**
-	Loops through array and prints out number of each denomination to be returned
-	1. prints nothing if "0"
-	2. prints in singular language if "1"
-	3. prints in plural language if plural
+Loops through array and prints out number of each denomination to be returned
+1. prints nothing if "0"
+2. prints in singular language if "1"
+3. prints in plural language if plural
 	
 **askUserPlayAgain(Scanner sc)**
-	Prompts if player wants to purchase another item.
-	Loops until player enters y, yes, Y, YES, n, no, N, or NO
-	Then returns true if y, yes, Y, YES
-	otherwise returns false
+Prompts if player wants to purchase another item.
+Loops until player enters y, yes, Y, YES, n, no, N, or NO
+Then returns true if y, yes, Y, YES
+otherwise returns false
 	
 ### What I Learned
 
@@ -73,4 +73,5 @@ solution rather than a rounding solution.
 
 ### Author and Date
 Meira Pentermann
+
 August 6, 2017
