@@ -14,18 +14,22 @@ public class MakeChange {
 	public static void main(String[] args) {
 		Scanner keyboard = new Scanner(System.in);
 		double cost, amountTendered;
-		/* 
-		 * Change this to int array
-		 * numTwenty, numTen, numFive, numOne;
-		 * numQuarter, numDime, numNickel, numPenny;
+		
+		/* int [] changeBreakdown
+		 * [0] numTwenty, [1] numTen, [2] numFive, [3]numOne;
+		 * [4] numQuarter, [5] numDime, [6] numNickel, [7] numPenny;
 		 */
 		int [] changeBreakdown = new int[8];
+		
+		/* double[] currencyValue for values; same indexes as changeBreakdown */
+		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .05};
 		
 		cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
 		cost = roundDouble(cost);
 		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
 		amountTendered = roundDouble(amountTendered);
 		System.out.println(cost + "\t" + amountTendered);
+		System.out.println(currencyValue[0]);
 	}
 	
 	public static double getCleanDouble(Scanner sc, String prompt) {
