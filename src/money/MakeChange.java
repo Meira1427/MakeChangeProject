@@ -5,40 +5,44 @@
  * bill and coin denominations as possible. Denominations that are not used should not 
  * be displayed.
  * 
- * Saving this version and uploading to GitHub. It works except for rounding error
- * Need to rewrite with Big Decimal*/
+ * Rounding errors with double; import Big Decimal. I did this in prework JavaByTheByte
+ * Referring to my prework solution and modifying to include arrays*/
 
 package money;
 
 import java.util.Scanner;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class MakeChange {
 
 	public static void main(String[] args) {
 		Scanner keyboard = new Scanner(System.in);
-		double cost, amountTendered, changeDue;
+		double cost, amountTendered;
+		BigDecimal changeDue;
+		BigDecimal[] changeBreakdown;
 		
 		/* int [] changeBreakdown
 		 * [0] numTwenty, [1] numTen, [2] numFive, [3]numOne;
 		 * [4] numQuarter, [5] numDime, [6] numNickel, [7] numPenny;
 		 */
-		int [] changeBreakdown = new int[8];
 		
-		
-		/* Prompt for cost and round */
+		/* Prompt for cost */
 		cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
-		cost = roundDouble(cost);
 		
-		/* Prompt for amount tendered and verify it is enough; then round*/
+		/* Prompt for amount tendered and verify it is enough*/
 		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
 		amountTendered = verifyCash(keyboard, amountTendered, cost);
-		//amountTendered = roundDouble(amountTendered);
 		
 		/* Calculate change due */
 		changeDue = getChangeDue(amountTendered, cost);
 		
 		changeBreakdown = getChangeBreakdown(amountTendered, cost);
 		printChangeDue(changeBreakdown, changeDue);
+		
+//		for (int i = 0; i < changeBreakdown.length; i++) {
+//			System.out.println(changeBreakdown[i]);
+//		}
 		
 		keyboard.close();
 		
@@ -57,13 +61,6 @@ public class MakeChange {
 	}
 	
 	/*
-	 * roundDouble - to tone down those extra decimal places.
-	 */
-	public static double roundDouble(double num) {
-		return Math.floor(num*100)/100;
-	}
-	
-	/*
 	 * verifyCash takes amount tendered and cost and continues looping with error
 	 * message if amount tendered is too low. If it is good the first time around,
 	 * user won't see error message
@@ -76,11 +73,11 @@ public class MakeChange {
 	}
 	
 	/*
-	 * getChangeDue just calculates the total amount
+	 * getChangeDue just calculates the total amount due back converted to BigDecimal
 	 */
-	public static double getChangeDue(double cash, double cost) {
-		double answer = cash - cost;
-		answer = roundDouble(answer);
+	public static BigDecimal getChangeDue(double cash, double cost) {
+		BigDecimal answer = BigDecimal.valueOf(cash-cost);
+		answer = answer.setScale(2, RoundingMode.HALF_UP);
 		return answer;
 	}
 	
@@ -92,28 +89,35 @@ public class MakeChange {
 	 * then adjusts change due to change%currencyValue and moves to next currencyValue
 	 */
 	
-	public static int[] getChangeBreakdown(double cash, double cost) {
-		int[] answer = new int[8]; //initialize array to return
-		double change = getChangeDue(cash, cost); //calculate change
+	public static BigDecimal[] getChangeBreakdown(double cash, double cost) {
+		BigDecimal[] answer = new BigDecimal[8]; //initialize array to return
+		BigDecimal change = getChangeDue(cash, cost); //calculate change
 		/* double[] currencyValue for values; same indexes as changeBreakdown */
-		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .01};
+		BigDecimal[] currencyValue = new BigDecimal[8];
+		currencyValue[0] = 	new BigDecimal("20.00");
+		currencyValue[1] = 	new BigDecimal("10.00");
+		currencyValue[2] = 	new BigDecimal("5.00");
+		currencyValue[3] = 	new BigDecimal("1.00");
+		currencyValue[4] = 	new BigDecimal("0.25");
+		currencyValue[5] = 	new BigDecimal("0.10");
+		currencyValue[6] = 	new BigDecimal("0.05");
+		currencyValue[7] = 	new BigDecimal("0.01");
 		for (int i = 0; i < answer.length; i++) {
-			answer[i] = (int)(change/currencyValue[i]);
-			change = change%currencyValue[i];
-			//System.out.println(i + ":  " + answer[i] + "\t" + currencyValue[i] + "\tchange: " + change);
+			answer[i] = change.divide(currencyValue[i]).setScale(0, RoundingMode.FLOOR);
+			change = change.remainder(currencyValue[i]);
 		}
 		return answer;
 	}
 	
-	public static void printChangeDue (int[] changeArr, double change) {
+	public static void printChangeDue (BigDecimal[] changeArr, BigDecimal change) {
 		String [] values = {"Twenties", "Tens", "Fives", "Ones", 
 							"Quarters", "Dimes", "Nickels", "Pennies"};
 		String [] value = {"Twenty", "Ten", "Five", "One", "Quarter", "Dime", "Nickel", "Penny"};
 		System.out.println("Your change due is " + change + ". Here is:");
 		for (int i = 0; i < values.length; i++) {
-			if (changeArr[i] == 0) {
+			if (changeArr[i].equals(BigDecimal.valueOf(0.0))){
 			} // print nothing if this denomination isn't returned
-			else if (changeArr[i] == 1) {
+			else if (changeArr[i].equals(BigDecimal.valueOf(1.0))) {
 				System.out.println(changeArr[i] + " " + value[i]);
 			}
 			else {
