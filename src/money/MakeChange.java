@@ -34,8 +34,8 @@ public class MakeChange {
 		/* Calculate change due */
 		changeDue = getChangeDue(amountTendered, cost);
 		
-		System.out.println(cost + "\t" + amountTendered + "\t" + changeDue);
 		changeBreakdown = getChangeBreakdown(amountTendered, cost);
+		printChangeDue(changeBreakdown, changeDue);
 		
 		keyboard.close();
 		
@@ -82,20 +82,40 @@ public class MakeChange {
 	}
 	
 	/*
-	 * 
+	 * getChangeBreakdown returns an int array with the number of 20s, 10s, 5s
+	 * 1s, quarters, dimes, nickels and pennies to return to user in the change due.
+	 * Array is in this order {20, 10, 5, 1, quarter, dime, nickel, penny}
+	 * divides change due by currency value, stores that in int array
+	 * then adjusts change due to change%currencyValue and moves to next currencyValue
 	 */
 	
 	public static int[] getChangeBreakdown(double cash, double cost) {
 		int[] answer = new int[8]; //initialize array to return
 		double change = roundDouble(getChangeDue(cash, cost)); //calculate change
 		/* double[] currencyValue for values; same indexes as changeBreakdown */
-		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .05};
+		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .01};
 		for (int i = 0; i < answer.length; i++) {
 			answer[i] = (int)(change/currencyValue[i]);
 			change = roundDouble(change%currencyValue[i]);
-			System.out.println(i + ":  " + answer[i] + "\t" + currencyValue[i] + "\tchange: " + change);
+			//System.out.println(i + ":  " + answer[i] + "\t" + currencyValue[i] + "\tchange: " + change);
 		}
 		return answer;
+	}
+	
+	public static void printChangeDue (int[] changeArr, double change) {
+		String [] values = {"Twenties", "Tens", "Fives", "Ones", 
+							"Quarters", "Dimes", "Nickels", "Pennies"};
+		String [] value = {"Twenty", "Ten", "Five", "One", "Quarter", "Dime", "Nickel", "Penny"};
+		System.out.println("Your change due is " + change + ". Here is:");
+		for (int i = 0; i < values.length; i++) {
+			System.out.print(changeArr[i] + " "); 
+			if (changeArr[i] == 1) {
+				System.out.println(value[i]);
+			}
+			else {
+				System.out.println(values[i]);
+			}
+		}
 	}
 
 }
