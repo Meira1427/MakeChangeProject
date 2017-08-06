@@ -3,7 +3,10 @@
  * attendant how many of each piece of currency ($20 ,$10 ,$5 ,$1, .25c, .10c, .05c, .01c) 
  * is needed to make the change for the customer. Change should be provided using the largest 
  * bill and coin denominations as possible. Denominations that are not used should not 
- * be displayed.*/
+ * be displayed.
+ * 
+ * Saving this version and uploading to GitHub. It works except for rounding error
+ * Need to rewrite with Big Decimal*/
 
 package money;
 
@@ -29,7 +32,7 @@ public class MakeChange {
 		/* Prompt for amount tendered and verify it is enough; then round*/
 		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
 		amountTendered = verifyCash(keyboard, amountTendered, cost);
-		amountTendered = roundDouble(amountTendered);
+		//amountTendered = roundDouble(amountTendered);
 		
 		/* Calculate change due */
 		changeDue = getChangeDue(amountTendered, cost);
@@ -91,12 +94,12 @@ public class MakeChange {
 	
 	public static int[] getChangeBreakdown(double cash, double cost) {
 		int[] answer = new int[8]; //initialize array to return
-		double change = roundDouble(getChangeDue(cash, cost)); //calculate change
+		double change = getChangeDue(cash, cost); //calculate change
 		/* double[] currencyValue for values; same indexes as changeBreakdown */
 		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .01};
 		for (int i = 0; i < answer.length; i++) {
 			answer[i] = (int)(change/currencyValue[i]);
-			change = roundDouble(change%currencyValue[i]);
+			change = change%currencyValue[i];
 			//System.out.println(i + ":  " + answer[i] + "\t" + currencyValue[i] + "\tchange: " + change);
 		}
 		return answer;
@@ -108,12 +111,13 @@ public class MakeChange {
 		String [] value = {"Twenty", "Ten", "Five", "One", "Quarter", "Dime", "Nickel", "Penny"};
 		System.out.println("Your change due is " + change + ". Here is:");
 		for (int i = 0; i < values.length; i++) {
-			System.out.print(changeArr[i] + " "); 
-			if (changeArr[i] == 1) {
-				System.out.println(value[i]);
+			if (changeArr[i] == 0) {
+			} // print nothing if this denomination isn't returned
+			else if (changeArr[i] == 1) {
+				System.out.println(changeArr[i] + " " + value[i]);
 			}
 			else {
-				System.out.println(values[i]);
+				System.out.println(changeArr[i] + " " + values[i]);
 			}
 		}
 	}
