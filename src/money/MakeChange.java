@@ -65,6 +65,12 @@ public class MakeChange {
 		
 	}
 	
+	/*
+	 * **********
+	 *  Methods *
+	 * **********
+	 */
+	
 	/* 
 	 * getCleanDouble forces user to enter only a number; returns a double
 	 */
