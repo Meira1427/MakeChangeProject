@@ -115,9 +115,9 @@ public class MakeChange {
 		String [] value = {"Twenty", "Ten", "Five", "One", "Quarter", "Dime", "Nickel", "Penny"};
 		System.out.println("Your change due is " + change + ". Here is:");
 		for (int i = 0; i < values.length; i++) {
-			if (changeArr[i].equals(BigDecimal.valueOf(0.0))){
+			if (changeArr[i].equals(BigDecimal.valueOf(0))){
 			} // print nothing if this denomination isn't returned
-			else if (changeArr[i].equals(BigDecimal.valueOf(1.0))) {
+			else if (changeArr[i].equals(BigDecimal.valueOf(1))) {
 				System.out.println(changeArr[i] + " " + value[i]);
 			}
 			else {
