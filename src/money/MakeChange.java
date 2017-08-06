@@ -13,7 +13,7 @@ public class MakeChange {
 
 	public static void main(String[] args) {
 		Scanner keyboard = new Scanner(System.in);
-		double cost, amountTendered;
+		double cost, amountTendered, changeDue;
 		
 		/* int [] changeBreakdown
 		 * [0] numTwenty, [1] numTen, [2] numFive, [3]numOne;
@@ -27,9 +27,13 @@ public class MakeChange {
 		cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
 		cost = roundDouble(cost);
 		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
+		amountTendered = verifyCash(keyboard, amountTendered, cost);
 		amountTendered = roundDouble(amountTendered);
+		
 		System.out.println(cost + "\t" + amountTendered);
-		System.out.println(currencyValue[0]);
+		
+		keyboard.close();
+		
 	}
 	
 	public static double getCleanDouble(Scanner sc, String prompt) {
@@ -44,6 +48,18 @@ public class MakeChange {
 	public static double roundDouble(double num) {
 		return Math.floor(num*100)/100;
 	}
+	
+	public static double verifyCash(Scanner sc, double amount, double cost) {
+		while (amount-cost < 0) {
+			amount = getCleanDouble(sc, "That's not enough. Please enter enough to cover cost: ");
+		}
+		return amount;
+	}
+	
+//	public static double getChangeDue(double cash, double cost) {
+//		double answer = cash - cost;
+//		
+//	}
 
 }
 	
