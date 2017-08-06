@@ -31,23 +31,16 @@ nickels, and pennies.
 ### Methods
 
 **getCleanDouble(Scanner sc, String prompt)**
-
 Loops until user actually enters a number that can be read as a double.
-
 Returns a double.
 	
 **verifyCash(Scanner sc, double amount, double cost)**
-
 Gives user an error message if amount tendered (amount) is less than cost.
-
 Loops until user enters an amount equal to or more than cost.
-
 Returns a double. This is new amount tendered.
 	
 **getChangeDue(double cash, double cost)**
-
 calculates cash minus cost
-
 Returns a Big Decimal
 	
 **getChangeBreakdown(BigDecimal change)**
