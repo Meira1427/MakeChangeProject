@@ -24,18 +24,27 @@ public class MakeChange {
 		/* double[] currencyValue for values; same indexes as changeBreakdown */
 		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .05};
 		
+		/* Prompt for cost and round */
 		cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
 		cost = roundDouble(cost);
+		
+		/* Prompt for amount tendered and verify it is enough; then round*/
 		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
 		amountTendered = verifyCash(keyboard, amountTendered, cost);
 		amountTendered = roundDouble(amountTendered);
 		
-		System.out.println(cost + "\t" + amountTendered);
+		/* Calculate change due */
+		changeDue = getChangeDue(amountTendered, cost);
+		
+		System.out.println(cost + "\t" + amountTendered + "\t" + changeDue);
 		
 		keyboard.close();
 		
 	}
 	
+	/* 
+	 * getCleanDouble forces user to enter only a number; returns a double
+	 */
 	public static double getCleanDouble(Scanner sc, String prompt) {
 		System.out.print(prompt);
 		while(!sc.hasNextDouble()) {
@@ -45,10 +54,18 @@ public class MakeChange {
 		return sc.nextDouble();
 	}
 	
+	/*
+	 * roundDouble - to tone down those extra decimal places.
+	 */
 	public static double roundDouble(double num) {
 		return Math.floor(num*100)/100;
 	}
 	
+	/*
+	 * verifyCash takes amount tendered and cost and continues looping with error
+	 * message if amount tendered is too low. If it is good the first time around,
+	 * user won't see error message
+	 */
 	public static double verifyCash(Scanner sc, double amount, double cost) {
 		while (amount-cost < 0) {
 			amount = getCleanDouble(sc, "That's not enough. Please enter enough to cover cost: ");
@@ -56,10 +73,11 @@ public class MakeChange {
 		return amount;
 	}
 	
-//	public static double getChangeDue(double cash, double cost) {
-//		double answer = cash - cost;
-//		
-//	}
+	public static double getChangeDue(double cash, double cost) {
+		double answer = cash - cost;
+		answer = roundDouble(answer);
+		return answer;
+	}
 
 }
 	
