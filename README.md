@@ -17,9 +17,13 @@ nickels, and pennies.
 ### Goals
 
 1. Must pass these test cases:
+
 a) Amount: .67, Tendered: .50, Result: Error message
+
 b) Amount: .67, Tendered: 1.00, Result: 1 quarter, 1 nickel, 3 pennies.
+
 c) Amount: .59, Tendered: 1.00, Result: 1 quarter, 1 dime, 1 nickel, 1 penny.
+
 d) Amount: 3.96, Tendered: 20.00, Result: 1 ten, 1 five, 1 one, 4 pennies.
 
 2. I would like to use arrays and methods in this solution.
@@ -28,23 +32,32 @@ d) Amount: 3.96, Tendered: 20.00, Result: 1 ten, 1 five, 1 one, 4 pennies.
 
 **getCleanDouble(Scanner sc, String prompt)**
 Loops until user actually enters a number that can be read as a double.
+
 Returns a double.
 	
 **verifyCash(Scanner sc, double amount, double cost)**
 Gives user an error message if amount tendered (amount) is less than cost.
+
 Loops until user enters an amount equal to or more than cost.
+
 Returns a double. This is new amount tendered.
 	
 **getChangeDue(double cash, double cost)**
 calculates cash minus cost
+
 Returns a Big Decimal
 	
 **getChangeBreakdown(BigDecimal change)**
 Calculates # of a certain denomination due back to customer.
+
 changeDue divided by value of currency
+
 changeDue then becomes remainder of changeDue%value-of-currency
+
 loop through array from 20s to pennies
+
 Array will be in this order Number of: {20s, 10s, 5s, 1s, quarters, dimes, nickels, pennies}
+
 Returns an array of Big Decimals, the number of each denomination to be returned
 	
 **printChangeDue (BigDecimal[] changeArr, BigDecimal change)**
@@ -55,8 +68,11 @@ Loops through array and prints out number of each denomination to be returned
 	
 **askUserPlayAgain(Scanner sc)**
 Prompts if player wants to purchase another item.
+
 Loops until player enters y, yes, Y, YES, n, no, N, or NO
+
 Then returns true if y, yes, Y, YES
+
 otherwise returns false
 	
 ### What I Learned
