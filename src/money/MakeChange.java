@@ -37,14 +37,20 @@ public class MakeChange {
 		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
 		amountTendered = verifyCash(keyboard, amountTendered, cost);
 		
-		/* Calculate change due. This is getting returned as Big Decimal */
-		changeDue = getChangeDue(amountTendered, cost);
-		
-		/*Returns an array of BigDecimals, the number of each denomination in change */
-		changeBreakdown = getChangeBreakdown(changeDue);
-		
-		/*Prints out message regarding change due & # of each denominations */
-		printChangeDue(changeBreakdown, changeDue);
+		/* only create array if change is due */
+		if(amountTendered==cost) {
+			System.out.println("Exact Change! Thank you for your business");
+		}
+		else {
+			/* Calculate change due. This is getting returned as Big Decimal */
+			changeDue = getChangeDue(amountTendered, cost);
+			
+			/*Returns an array of BigDecimals, the number of each denomination in change */
+			changeBreakdown = getChangeBreakdown(changeDue);
+			
+			/*Prints out message regarding change due & # of each denominations */
+			printChangeDue(changeBreakdown, changeDue);
+		}
 		
 		keyboard.close();
 		
