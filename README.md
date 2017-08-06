@@ -30,7 +30,7 @@ nickels, and pennies.
 
 ### Methods
 
-**getCleanDouble(Scanner sc, String prompt)**
+#### getCleanDouble(Scanner sc, String prompt)
 
 Loops until user actually enters a number that can be read as a double.
 
@@ -38,7 +38,7 @@ Returns a double.
 
 
 	
-**verifyCash(Scanner sc, double amount, double cost)**
+#### verifyCash(Scanner sc, double amount, double cost)
 
 Gives user an error message if amount tendered (amount) is less than cost.
 
@@ -48,14 +48,14 @@ Returns a double. This is new amount tendered.
 
 
 	
-**getChangeDue(double cash, double cost)**
+#### getChangeDue(double cash, double cost)
 calculates cash minus cost
 
 Returns a Big Decimal
 
 
 	
-**getChangeBreakdown(BigDecimal change)**
+#### getChangeBreakdown(BigDecimal change)
 
 Calculates # of a certain denomination due back to customer.
 
@@ -71,7 +71,7 @@ Returns an array of Big Decimals, the number of each denomination to be returned
 
 
 	
-**printChangeDue (BigDecimal[] changeArr, BigDecimal change)**
+#### printChangeDue (BigDecimal[] changeArr, BigDecimal change)
 
 Loops through array and prints out number of each denomination to be returned
 1. prints nothing if "0"
@@ -80,7 +80,7 @@ Loops through array and prints out number of each denomination to be returned
 
 
 	
-**askUserPlayAgain(Scanner sc)**
+#### askUserPlayAgain(Scanner sc)
 
 Prompts if player wants to purchase another item.
 
