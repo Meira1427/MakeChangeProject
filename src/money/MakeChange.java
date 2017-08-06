@@ -5,8 +5,8 @@
  * bill and coin denominations as possible. Denominations that are not used should not 
  * be displayed.
  * 
- * Rounding errors with double; import Big Decimal. I did this in prework JavaByTheByte
- * Referring to my prework solution and modifying to include arrays*/
+ * Rounding errors occur when using double; import Big Decimal. I did this in prework 
+ * JavaByTheByte. Referring to my prework solution and modifying to include arrays*/
 
 package money;
 
@@ -18,14 +18,17 @@ public class MakeChange {
 
 	public static void main(String[] args) {
 		Scanner keyboard = new Scanner(System.in);
+		/* Take input in doubles, so I can work with Scanner class */
 		double cost, amountTendered;
-		BigDecimal changeDue;
-		BigDecimal[] changeBreakdown;
 		
-		/* int [] changeBreakdown
+		/* Use big decimal to avoid rounding losses that occur with doubles */
+		BigDecimal changeDue;
+		
+		/* BigDecimal [] changeBreakdown. Will be stored in this order
 		 * [0] numTwenty, [1] numTen, [2] numFive, [3]numOne;
 		 * [4] numQuarter, [5] numDime, [6] numNickel, [7] numPenny;
 		 */
+		BigDecimal[] changeBreakdown;
 		
 		/* Prompt for cost */
 		cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
@@ -34,15 +37,14 @@ public class MakeChange {
 		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
 		amountTendered = verifyCash(keyboard, amountTendered, cost);
 		
-		/* Calculate change due */
+		/* Calculate change due. This is getting returned as Big Decimal */
 		changeDue = getChangeDue(amountTendered, cost);
 		
-		changeBreakdown = getChangeBreakdown(amountTendered, cost);
-		printChangeDue(changeBreakdown, changeDue);
+		/*Returns an array of BigDecimals, the number of each denomination in change */
+		changeBreakdown = getChangeBreakdown(changeDue);
 		
-//		for (int i = 0; i < changeBreakdown.length; i++) {
-//			System.out.println(changeBreakdown[i]);
-//		}
+		/*Prints out message regarding change due & # of each denominations */
+		printChangeDue(changeBreakdown, changeDue);
 		
 		keyboard.close();
 		
@@ -82,17 +84,15 @@ public class MakeChange {
 	}
 	
 	/*
-	 * getChangeBreakdown returns an int array with the number of 20s, 10s, 5s
+	 * getChangeBreakdown returns a BigDecimal array with the number of 20s, 10s, 5s
 	 * 1s, quarters, dimes, nickels and pennies to return to user in the change due.
 	 * Array is in this order {20, 10, 5, 1, quarter, dime, nickel, penny}
-	 * divides change due by currency value, stores that in int array
+	 * divides change due by currency value, stores that in BigDecimal array
 	 * then adjusts change due to change%currencyValue and moves to next currencyValue
 	 */
-	
-	public static BigDecimal[] getChangeBreakdown(double cash, double cost) {
+	public static BigDecimal[] getChangeBreakdown(BigDecimal change) {
 		BigDecimal[] answer = new BigDecimal[8]; //initialize array to return
-		BigDecimal change = getChangeDue(cash, cost); //calculate change
-		/* double[] currencyValue for values; same indexes as changeBreakdown */
+		/* BigDecimal[] currencyValue for values; same indexes as changeBreakdown */
 		BigDecimal[] currencyValue = new BigDecimal[8];
 		currencyValue[0] = 	new BigDecimal("20.00");
 		currencyValue[1] = 	new BigDecimal("10.00");
@@ -102,6 +102,9 @@ public class MakeChange {
 		currencyValue[5] = 	new BigDecimal("0.10");
 		currencyValue[6] = 	new BigDecimal("0.05");
 		currencyValue[7] = 	new BigDecimal("0.01");
+		/* iterate through array, counting # of each denomination to return
+		 * Do this by dividing change due by currency value (BigDecimal .divide)
+		 * then getting remainder with the BigDecimal mod% method .remainder */
 		for (int i = 0; i < answer.length; i++) {
 			answer[i] = change.divide(currencyValue[i]).setScale(0, RoundingMode.FLOOR);
 			change = change.remainder(currencyValue[i]);
@@ -109,6 +112,12 @@ public class MakeChange {
 		return answer;
 	}
 	
+	/*
+	 * printChangeDue iterates through array and 
+	 * prints nothing if # to return is zero
+	 * prints singular version of word if # to return is one
+	 * prints plural version of word if # to return is plural
+	 */
 	public static void printChangeDue (BigDecimal[] changeArr, BigDecimal change) {
 		String [] values = {"Twenties", "Tens", "Fives", "Ones", 
 							"Quarters", "Dimes", "Nickels", "Pennies"};
@@ -124,6 +133,7 @@ public class MakeChange {
 				System.out.println(changeArr[i] + " " + values[i]);
 			}
 		}
+		System.out.println("Thank you for your business!");
 	}
 
 }
