@@ -30,27 +30,36 @@ public class MakeChange {
 		 */
 		BigDecimal[] changeBreakdown;
 		
-		/* Prompt for cost */
-		cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
+		boolean purchasing = true;
 		
-		/* Prompt for amount tendered and verify it is enough*/
-		amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
-		amountTendered = verifyCash(keyboard, amountTendered, cost);
+		while(purchasing) {
+			/* Prompt for cost */
+			cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
+			
+			/* Prompt for amount tendered and verify it is enough*/
+			amountTendered = getCleanDouble(keyboard, "Enter amount tendered: ");
+			amountTendered = verifyCash(keyboard, amountTendered, cost);
+			
+			/* only create array if change is due */
+			if(amountTendered==cost) {
+				System.out.println("Exact Change! Thank you for your business");
+			}
+			else {
+				/* Calculate change due. This is getting returned as Big Decimal */
+				changeDue = getChangeDue(amountTendered, cost);
+				
+				/*Returns an array of BigDecimals, the number of each denomination in change */
+				changeBreakdown = getChangeBreakdown(changeDue);
+				
+				/*Prints out message regarding change due & # of each denominations */
+				printChangeDue(changeBreakdown, changeDue);
+			}
+			
+			purchasing = askUserPlayAgain(keyboard);
 		
-		/* only create array if change is due */
-		if(amountTendered==cost) {
-			System.out.println("Exact Change! Thank you for your business");
 		}
-		else {
-			/* Calculate change due. This is getting returned as Big Decimal */
-			changeDue = getChangeDue(amountTendered, cost);
-			
-			/*Returns an array of BigDecimals, the number of each denomination in change */
-			changeBreakdown = getChangeBreakdown(changeDue);
-			
-			/*Prints out message regarding change due & # of each denominations */
-			printChangeDue(changeBreakdown, changeDue);
-		}
+		
+		System.out.println("Thank you for your business!");
 		
 		keyboard.close();
 		
@@ -139,7 +148,21 @@ public class MakeChange {
 				System.out.println(changeArr[i] + " " + values[i]);
 			}
 		}
-		System.out.println("Thank you for your business!");
+	}
+	
+	public static boolean askUserPlayAgain(Scanner sc) {
+		String answer = "answer";
+		while(!(answer.equals("y") || answer.equals("yes") 
+				|| answer.equals("n") || answer.equals("no") )) {
+			System.out.print("\nWould you like to purchase another item? (y/n): ");
+			answer = sc.next().toLowerCase();
+		}
+		if (answer.equals("y") || answer.equals("yes")) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }
