@@ -21,8 +21,6 @@ public class MakeChange {
 		 */
 		int [] changeBreakdown = new int[8];
 		
-		/* double[] currencyValue for values; same indexes as changeBreakdown */
-		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .05};
 		
 		/* Prompt for cost and round */
 		cost = getCleanDouble(keyboard, "Enter the cost of your item: ");
@@ -37,6 +35,7 @@ public class MakeChange {
 		changeDue = getChangeDue(amountTendered, cost);
 		
 		System.out.println(cost + "\t" + amountTendered + "\t" + changeDue);
+		changeBreakdown = getChangeBreakdown(amountTendered, cost);
 		
 		keyboard.close();
 		
@@ -48,7 +47,7 @@ public class MakeChange {
 	public static double getCleanDouble(Scanner sc, String prompt) {
 		System.out.print(prompt);
 		while(!sc.hasNextDouble()) {
-			System.out.println(prompt);
+			System.out.print(prompt);
 			sc.next();
 		}
 		return sc.nextDouble();
@@ -73,9 +72,29 @@ public class MakeChange {
 		return amount;
 	}
 	
+	/*
+	 * getChangeDue just calculates the total amount
+	 */
 	public static double getChangeDue(double cash, double cost) {
 		double answer = cash - cost;
 		answer = roundDouble(answer);
+		return answer;
+	}
+	
+	/*
+	 * 
+	 */
+	
+	public static int[] getChangeBreakdown(double cash, double cost) {
+		int[] answer = new int[8]; //initialize array to return
+		double change = roundDouble(getChangeDue(cash, cost)); //calculate change
+		/* double[] currencyValue for values; same indexes as changeBreakdown */
+		double[] currencyValue = {20.0, 10.0, 5.0, 1.0, .25, .10, .05, .05};
+		for (int i = 0; i < answer.length; i++) {
+			answer[i] = (int)(change/currencyValue[i]);
+			change = roundDouble(change%currencyValue[i]);
+			System.out.println(i + ":  " + answer[i] + "\t" + currencyValue[i] + "\tchange: " + change);
+		}
 		return answer;
 	}
 
